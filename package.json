@@ -1,0 +1,27 @@
+{
+  "name": "namaste-react",
+  "version": "1.0.0",
+  "description": "My first react app from scratch, it's not created with create-react-app command",
+  "main": "index.js",
+  "scripts": {
+    "test": "run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lohith146/namaste-react.git"
+  },
+  "author": "Lohith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lohith146/namaste-react/issues"
+  },
+  "homepage": "https://github.com/lohith146/namaste-react#readme",
+  "devDependencies": {
+    "parcel": "^2.10.0",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
