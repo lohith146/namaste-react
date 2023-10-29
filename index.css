@@ -1,3 +1,57 @@
-#heading {
-  color: red;
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 300;
+  src: url("./src/fonts/OpenSans-Light.woff2") format("woff2"),
+    url("./src/fonts/OpenSans-Light.woff") format("woff");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 400;
+  src: url("./src/fonts/OpenSans-Regular.woff2") format("woff2"),
+    url("./src/fonts/OpenSans-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 500;
+  src: url("./src/fonts/OpenSans-Medium.woff2") format("woff2"),
+    url("./src/fonts/OpenSans-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 700;
+  src: url("./src/fonts/OpenSans-SemiBold.woff2") format("woff2"),
+    url("./src/fonts/OpenSans-SemiBold.woff") format("woff");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 900;
+  src: url("./src/fonts/OpenSans-ExtraBold.woff2") format("woff2"),
+    url("./src/fonts/OpenSans-ExtraBold.woff") format("woff");
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+.header .logo img {
+  width: 80px;
+}
+.header .nav-items ul {
+  display: flex;
+}
+.header .nav-items ul li {
+  list-style-type: none;
+  padding: 5px;
+  margin: 10px;
+  font-family: "Open Sans";
+  font-weight: 700;
+  cursor: pointer;
 }
