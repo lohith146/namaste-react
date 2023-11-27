@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/lohith146/namaste-react#readme",
   "devDependencies": {
-    "process": "^0.11.10"
+    "postcss": "^8.4.31",
+    "process": "^0.11.10",
+    "tailwindcss": "^3.3.5"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
