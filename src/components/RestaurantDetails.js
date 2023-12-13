@@ -16,7 +16,7 @@ const RestaurantDetails = () => {
   const {
     name,
     areaName,
-    avgRating,
+    avgRatingString,
     costForTwoMessage,
     cuisines,
     totalRatingsString,
@@ -42,7 +42,7 @@ const RestaurantDetails = () => {
         <div className="rating border-gray-300 border-solid border py-[8px] px-[8px] rounded-md text-center shadow-md">
           <p className="text-green-600 text-[12px] font-bold border-solid border-b bordergray-300 pb-2 tracking-[-0.25px]">
             <FontAwesomeIcon icon={faStar} className="mr-1" />
-            {avgRating}
+            {avgRatingString}
           </p>
           <span className="text-[9px] font-medium text-slate-500 align-sb tracking-[-0.75px]">
             {totalRatingsString}
@@ -74,6 +74,7 @@ const RestaurantDetails = () => {
                       index={i}
                       title={item?.card?.card?.title}
                       content={item?.card?.card?.itemCards}
+                      extraMenu={item?.card?.card?.categories}
                     />
                     // <div className="menu-title" id={i}>
                     //   <h4
