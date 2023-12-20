@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Card, { cardWithDiscount } from "./Card";
 import { ShimmerContainer } from "./Shimmer";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import { restaurants } from "../utils/constants";
 
 const Body = () => {
   const [filteredArr, setFilteredArr] = useState([]);
@@ -12,25 +13,21 @@ const Body = () => {
     fetchData();
   }, []);
   const fetchData = async () => {
-    const prmseData = await fetch(
-      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.6851243&lng=83.2035471&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
+    const prmseData = await fetch(restaurants);
     const dataArr = await prmseData.json();
     setResCards(
-      dataArr?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle
+      dataArr?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
     );
     setFilteredArr(
-      dataArr?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle
+      dataArr?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
     );
   };
-  console.log(resCards);
   const filterList = () => {
     const resArr = resCards.filter((res) => {
       return res.info.name.toLowerCase().includes(inputVal.toLowerCase());
     });
-    console.log(resArr);
     setFilteredArr(resArr);
   };
   if (!useOnlineStatus()) {

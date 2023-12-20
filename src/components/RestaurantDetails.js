@@ -1,13 +1,23 @@
-import { useEffect, useState } from "react";
 import Accordion from "./Accordion";
-import { MENU_URL } from "../utils/constants";
 import { useParams } from "react-router-dom";
 import { RestaurantDetailsShimmer } from "./Shimmer";
 import useRestaurantDetails from "../utils/useRestaurantDetails";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const RestaurantDetails = () => {
+  const cartItems = useSelector((store) => store.cart.items);
+  const price = useSelector((store) => store.cart.price);
+  const [openCardIndex, setOpenCardIndex] = useState(null);
+  const toggleAccordion = (index) => {
+    if (openCardIndex === index) {
+      return setOpenCardIndex(null);
+    }
+    setOpenCardIndex(index);
+  };
   const { id } = useParams();
   const restDetails = useRestaurantDetails(id);
   if (restDetails === null) {
@@ -25,8 +35,21 @@ const RestaurantDetails = () => {
   } = restDetails?.data?.cards[0]?.card?.card?.info;
   const menuDetails =
     restDetails?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
+  // const menuDetails =
+  //   restDetails?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+  //     (item) =>
+  //       item?.card?.card?.["@type"] ===
+  //       "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+  //   );
   const sortOnlyVeg = () => {};
-
+  const cartBanner = (
+    <div className="bg-green-600 text-white font-medium text-[14px] px-4 py-2 flex justify-between bottom-0 w-full my-2">
+      {cartItems.length} Item | {price}
+      <Link to="/cart" className="uppercase">
+        view cart
+      </Link>
+    </div>
+  );
   return (
     <div className="container mx-auto px-[240px] my-6">
       <div className="flex justify-between">
@@ -49,24 +72,13 @@ const RestaurantDetails = () => {
           </span>
         </div>
       </div>
-      {/* <div className="delivery-info">
-        <div className="time">
-          <span>{sla?.slaString}</span>
-          <span>{costForTwoMessage}</span>
-        </div>
-        <div className="coupons">
-          {aggregatedDiscountInfo?.descriptionList?.map((discount, i) => (
-            <div key={i}>{discount?.meta}</div>
-          ))}
-        </div>
-      </div> */}
       <div className="font-semibold py-4">
         <button onClick={sortOnlyVeg}>Veg Only</button>
       </div>
       <div className="menuItems">
-        {menuDetails.map((item, i) => {
+        {menuDetails?.map((item, i) => {
           return (
-            <div key={i}>
+            <div key={i} className="border-b-[12px] last:border-b-0">
               {item?.card?.card?.title && (
                 <>
                   {
@@ -75,56 +87,18 @@ const RestaurantDetails = () => {
                       title={item?.card?.card?.title}
                       content={item?.card?.card?.itemCards}
                       extraMenu={item?.card?.card?.categories}
+                      active={openCardIndex}
+                      toggleAccordion={toggleAccordion}
                     />
-                    // <div className="menu-title" id={i}>
-                    //   <h4
-                    //     onClick={() => {
-                    //       const listRef = document.getElementById(i);
-                    //       console.log(listRef);
-                    //       listRef.classList.toggle("active");
-                    //     }}
-                    //   >
-                    //     <span
-                    //       className={
-                    //         item?.card?.card?.itemCards?.length ? "active" : ""
-                    //       }
-                    //     >
-                    //       {item?.card?.card?.title}
-                    //       {item?.card?.card?.itemCards?.length
-                    //         ? ` (${item?.card?.card?.itemCards?.length})`
-                    //         : ""}
-                    //     </span>
-                    //   </h4>
-                    //   <ul className="list">
-                    //     {item?.card?.card?.itemCards?.map((item, i) => {
-                    //       return (
-                    //         <li key={i}>
-                    //           <div>
-                    //             <h4>{item?.card?.info?.name}</h4>
-                    //           </div>
-                    //           <div>
-                    //             {item?.card?.info?.imageId ? (
-                    //               <img
-                    //                 src={
-                    //                   "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/" +
-                    //                   item?.card?.info?.imageId
-                    //                 }
-                    //               />
-                    //             ) : (
-                    //               ""
-                    //             )}
-                    //           </div>
-                    //         </li>
-                    //       );
-                    //     })}
-                    //   </ul>
-                    // </div>
                   }
                 </>
               )}
             </div>
           );
         })}
+      </div>
+      <div className="fixed bottom-0 w-[800px] z-[2]">
+        {cartItems.length > 0 ? cartBanner : ""}
       </div>
     </div>
   );

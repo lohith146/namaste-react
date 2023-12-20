@@ -2,12 +2,15 @@ import { useState } from "react";
 import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import { useSelector } from "react-redux";
+import store from "../utils/store";
 
 const Header = () => {
   const [btnName, setBtnName] = useState("Login");
   const toggleBtn = () => {
     setBtnName(btnName === "Login" ? "Logout" : "Login");
   };
+  const cartItems = useSelector((store) => store.cart.items);
   return (
     <div className="flex justify-between items-center py-2 px-[128px] shadow-md">
       <div className="h-10">
@@ -29,7 +32,9 @@ const Header = () => {
           <Link to="/contact">Contact Us</Link>
         </li>
         <li className="p-4 text-[16px] font-medium">
-          <Link to="/cart">Cart</Link>
+          <Link to="/cart">
+            {cartItems.length > 0 && cartItems.length} Cart
+          </Link>
         </li>
         <li className="p-4 text-[16px] font-medium">
           <Link to="/groceries">Groceries</Link>
