@@ -16,25 +16,25 @@ const ExtraMenu = ({ item, i, toggleItemIndex, itemIndexVal }) => {
     dispatch(addItem(item));
   };
   return (
-    <div
-      key={i}
-      className="border-b-gray-100 border-b-2 border-solid last:border-none"
-    >
-      <h4
-        className="cursor-pointer flex justify-between py-4 font-normal text-[16px]"
-        onClick={() => toggleItemIndex(i)}
-      >
-        <span>
-          {item?.title}
-          {item?.itemCards?.length ? ` (${item.itemCards?.length})` : ""}
-        </span>
-        {item?.itemCards?.length &&
-          (itemIndexVal === i ? (
-            <FontAwesomeIcon icon={faChevronUp} />
-          ) : (
-            <FontAwesomeIcon icon={faChevronDown} />
-          ))}
-      </h4>
+    <div key={i} className="border-b-[12px] border-solid">
+      {(item?.itemCards?.length > 0 || item?.categories?.length > 0) && (
+        <h4
+          className="cursor-pointer flex justify-between py-4 font-normal text-[16px]"
+          onClick={() => toggleItemIndex(i)}
+        >
+          <span>
+            {item?.title}
+            {item?.itemCards?.length > 0 ? ` (${item.itemCards?.length})` : ""}
+          </span>
+          {item?.itemCards?.length > 0 &&
+            (itemIndexVal === i ? (
+              <FontAwesomeIcon icon={faChevronUp} />
+            ) : (
+              <FontAwesomeIcon icon={faChevronDown} />
+            ))}
+        </h4>
+      )}
+
       <ul className={itemIndexVal === i ? "block" : "hidden"}>
         {item.itemCards?.map((item, itemIndex) => {
           return (

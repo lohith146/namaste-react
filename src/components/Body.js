@@ -4,6 +4,8 @@ import Card, { cardWithDiscount } from "./Card";
 import { ShimmerContainer } from "./Shimmer";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import { restaurants } from "../utils/constants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Body = () => {
   const [filteredArr, setFilteredArr] = useState([]);
@@ -55,26 +57,32 @@ const Body = () => {
           Top Rated Restaurants
         </button>
         <div className="pl-4 flex content-center">
-          <input
-            name="search-input"
-            type="text"
-            value={inputVal}
-            onChange={(e) => setInputVal(e.target.value)}
-            placeholder="Search..."
-            className="p-2 border border-solid border-slate-400 rounded-full text-xs"
-          />
-          {inputVal && (
-            <span
-              onClick={() => {
-                setFilteredArr(resCards);
-                setInputVal("");
-              }}
-            >
-              x
-            </span>
-          )}
+          <div className="relative">
+            <input
+              name="search-input"
+              type="text"
+              value={inputVal}
+              onChange={(e) => setInputVal(e.target.value)}
+              placeholder="Search..."
+              className="px-[10px] py-[8px] border border-solid border-slate-400 rounded-full text-xs"
+            />
+            {inputVal && (
+              <span
+                className="absolute right-[15px] top-[50%] translate-y-[-50%]"
+                onClick={() => {
+                  setFilteredArr(resCards);
+                  setInputVal("");
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faCircleXmark}
+                  className="text-[#637d6f] cursor-pointer text-[18px]"
+                />
+              </span>
+            )}
+          </div>
           <button
-            className="text-xs px-2 py-2 border border-solid border-slate-400 bg-white rounded-full ml-2"
+            className="text-xs px-2 py-2 border border-solid border-[#637d6f] bg-[#637d6f] text-white rounded-full ml-2 transition-[background] duration-[400ms] uppercase hover:bg-white hover:text-[#637d6f]"
             onClick={filterList}
           >
             Search

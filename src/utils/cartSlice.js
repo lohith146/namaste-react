@@ -8,10 +8,28 @@ const cartSlice = createSlice({
   },
   reducers: {
     addItem(state, action) {
-      state.items.push(action.payload);
+      const objFound = state.items.find(
+        (item) => item?.info?.id === action?.payload?.info?.id
+      );
+      if (objFound) {
+        const findIndex = state.items.findIndex(
+          (item) => item?.info?.id === objFound?.info?.id
+        );
+        const newItems = [...state.items];
+        newItems[findIndex] = {
+          ...objFound,
+          quantity: ++objFound.quantity,
+          info: {
+            ...objFound.info,
+            totalPrice: objFound.info.price * objFound.quantity,
+          },
+        };
+        state.items = newItems;
+      } else {
+        state.items.push(action.payload);
+      }
       state.price = state.items.reduce((acc, cur) => {
-        console.log(acc, cur);
-        return acc + cur?.card?.info?.price / 100;
+        return acc + (cur?.info?.price * cur?.quantity) / 100;
       }, 0);
     },
     removeItem(state) {

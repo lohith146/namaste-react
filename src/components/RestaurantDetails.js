@@ -6,42 +6,88 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Switch } from "antd";
 
 const RestaurantDetails = () => {
+  const { id } = useParams();
   const cartItems = useSelector((store) => store.cart.items);
   const price = useSelector((store) => store.cart.price);
   const [openCardIndex, setOpenCardIndex] = useState(null);
+  const [allMenu, setAllMenu] = useState([]);
+  const [menuDetails, setMenuDeatils] = useState([]);
+  const restDetails = useRestaurantDetails(id);
+
+  const filterResDetails = () => {
+    return restDetails?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (item) =>
+        item?.card?.card?.["@type"] ===
+          "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory" ||
+        item?.card?.card?.["@type"] ===
+          "type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory"
+    );
+  };
+
+  const filterVegItems = () => {
+    return menuDetails.map((menuItem) => {
+      if (menuItem?.card?.card?.itemCards) {
+        return {
+          card: {
+            card: {
+              ...menuItem?.card?.card,
+              itemCards: menuItem?.card?.card?.itemCards?.filter(
+                (item) =>
+                  item?.card?.info?.itemAttribute?.vegClassifier === "VEG"
+              ),
+            },
+          },
+        };
+      }
+      if (menuItem?.card?.card?.categories) {
+        return {
+          card: {
+            card: {
+              ...menuItem?.card?.card,
+              categories: menuItem?.card?.card?.categories.map((item) => {
+                return {
+                  ...item,
+                  itemCards: item?.itemCards.filter(
+                    (prevItem) =>
+                      prevItem?.card?.info?.itemAttribute?.vegClassifier ===
+                      "VEG"
+                  ),
+                };
+              }),
+            },
+          },
+        };
+      }
+    });
+  };
+
+  useEffect(() => {
+    setAllMenu(filterResDetails());
+    setMenuDeatils(filterResDetails());
+  }, [restDetails]);
+
+  if (restDetails === null) {
+    return <RestaurantDetailsShimmer />;
+  }
+
   const toggleAccordion = (index) => {
     if (openCardIndex === index) {
       return setOpenCardIndex(null);
     }
     setOpenCardIndex(index);
   };
-  const { id } = useParams();
-  const restDetails = useRestaurantDetails(id);
-  if (restDetails === null) {
-    return <RestaurantDetailsShimmer />;
-  }
-  const {
-    name,
-    areaName,
-    avgRatingString,
-    costForTwoMessage,
-    cuisines,
-    totalRatingsString,
-    sla,
-    aggregatedDiscountInfo,
-  } = restDetails?.data?.cards[0]?.card?.card?.info;
-  const menuDetails =
-    restDetails?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
-  // const menuDetails =
-  //   restDetails?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
-  //     (item) =>
-  //       item?.card?.card?.["@type"] ===
-  //       "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
-  //   );
-  const sortOnlyVeg = () => {};
+
+  const { name, areaName, avgRatingString, cuisines, totalRatingsString, sla } =
+    restDetails?.data?.cards[0]?.card?.card?.info;
+
+  const sortOnlyVeg = (checked) => {
+    checked ? setMenuDeatils(filterVegItems()) : setMenuDeatils(allMenu);
+  };
+
   const cartBanner = (
     <div className="bg-green-600 text-white font-medium text-[14px] px-4 py-2 flex justify-between bottom-0 w-full my-2">
       {cartItems.length} Item | {price}
@@ -50,6 +96,7 @@ const RestaurantDetails = () => {
       </Link>
     </div>
   );
+
   return (
     <div className="container mx-auto px-[240px] my-6">
       <div className="flex justify-between">
@@ -72,27 +119,33 @@ const RestaurantDetails = () => {
           </span>
         </div>
       </div>
-      <div className="font-semibold py-4">
-        <button onClick={sortOnlyVeg}>Veg Only</button>
+      <div className="font-semibold py-4 flex items-center">
+        <label className="mr-[8px]">Only Veg</label>
+        <Switch
+          size="small"
+          onChange={sortOnlyVeg}
+          className="bg-gray-400 min-w-[30px]"
+        />
       </div>
       <div className="menuItems">
         {menuDetails?.map((item, i) => {
           return (
-            <div key={i} className="border-b-[12px] last:border-b-0">
-              {item?.card?.card?.title && (
-                <>
-                  {
-                    <Accordion
-                      index={i}
-                      title={item?.card?.card?.title}
-                      content={item?.card?.card?.itemCards}
-                      extraMenu={item?.card?.card?.categories}
-                      active={openCardIndex}
-                      toggleAccordion={toggleAccordion}
-                    />
-                  }
-                </>
-              )}
+            <div
+              key={i}
+              className={
+                item?.card?.card?.itemCards?.length > 0
+                  ? "border-b-[12px] last-of-type:border-b-0"
+                  : ""
+              }
+            >
+              <Accordion
+                index={i}
+                title={item?.card?.card?.title}
+                content={item?.card?.card?.itemCards}
+                extraMenu={item?.card?.card?.categories}
+                active={openCardIndex}
+                toggleAccordion={toggleAccordion}
+              />
             </div>
           );
         })}

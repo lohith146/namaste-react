@@ -20,11 +20,13 @@ const Cart = () => {
         Cart
       </h1>
       <ul>
+        {console.log(cartItems)}
         {cartItems?.map((item, i) => {
           console.log(item);
           const { name, price, defaultPrice, imageId, description } =
-            item?.card?.info;
-          const classifier = item?.card?.info?.itemAttribute?.vegClassifier;
+            item?.info;
+          console.log(name);
+          const classifier = item?.info?.itemAttribute?.vegClassifier;
 
           return (
             <li key={i} className="flex justify-between py-3">
@@ -41,9 +43,24 @@ const Cart = () => {
                   />
                 )}
                 <h4 className="font-medium text-[16px]">{name}</h4>
+                {item?.quantity > 0 && <p>Quantity : {item?.quantity}</p>}
                 <p className="text-[14px] font-light pt-2">
-                  ₹ {price ? Math.floor(price / 100) : defaultPrice}
+                  {console.log(price, item?.totalPrice)}
+                  {console.log(price < item?.totalPrice)}₹
+                  {price > item?.totalPrice
+                    ? Math.floor(price / 100)
+                    : Math.floor(item?.totalPrice / 100)}
                 </p>
+                {/* <p className="text-[14px] font-light pt-2">
+                  ₹ {console.log(price, totalPrice)}
+                  {(
+                    price < totalPrice
+                      ? Math.floor(price / 100)
+                      : Math.floor(totalPrice / 100)
+                  )
+                    ? Math.floor(price / 100)
+                    : defaultPrice}
+                </p> */}
                 <p className="text-[13px] font-light text-slate-400 py-2 max-w-xl">
                   {description}
                 </p>
@@ -73,7 +90,7 @@ const Cart = () => {
             Your Cart is empty, Add Items to your Cart
           </h1>
           <Link
-            className="p-2 bg-green-500 font-semibold text-[16px] text-white rounded-md"
+            className="p-2 border-[#637d6f] border-[1px] bg-[#637d6f] font-semibold text-[16px] text-white rounded-md transition-[background] duration-[400ms] uppercase hover:bg-white hover:text-[#637d6f]"
             to="/"
           >
             Add Items

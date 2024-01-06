@@ -34,7 +34,7 @@ const Card = (props) => {
           <span className="flex items-center">
             <FontAwesomeIcon
               icon={faStar}
-              className="mr-1 bg-green-400 text-white text-[9px] p-1 rounded-full"
+              className="mr-1 bg-[#637d6f] text-white text-[9px] p-1 rounded-full"
             />
             {+Math.trunc(avgRatingString) === +avgRatingString
               ? +Math.trunc(avgRatingString)

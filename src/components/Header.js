@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { LOGO_URL } from "../utils/constants";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import { useSelector } from "react-redux";
 import store from "../utils/store";
+import Logo from "../assets/logo.png";
 
 const Header = () => {
   const [btnName, setBtnName] = useState("Login");
@@ -13,33 +13,59 @@ const Header = () => {
   const cartItems = useSelector((store) => store.cart.items);
   return (
     <div className="flex justify-between items-center py-2 px-[128px] shadow-md">
-      <div className="h-10">
-        <Link to={"/"}>
-          <img src={LOGO_URL} className="h-full" />
-        </Link>
+      <div className="h-[100px]">
+        <NavLink to={"/"}>
+          <img src={Logo} className="h-full" />
+        </NavLink>
       </div>
       <ul className="flex items-center">
-        <li className="p-4 text-[16px] font-medium">
+        {/* <li className="p-4 text-[16px] font-medium">
           {useOnlineStatus() ? "🟢 Online" : "🔴 Offline"}
+        </li> */}
+        <li className="p-4 text-[18px] font-medium">
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? "text-[#637d6f]" : "")}
+          >
+            Home
+          </NavLink>
         </li>
-        <li className="p-4 text-[16px] font-medium">
-          <Link to="/">Home</Link>
+        <li className="p-4 text-[18px] font-medium">
+          <NavLink
+            to="/about"
+            className={({ isActive }) => (isActive ? "text-[#637d6f]" : "")}
+          >
+            About Us
+          </NavLink>
         </li>
-        <li className="p-4 text-[16px] font-medium">
-          <Link to="/about">About Us</Link>
+        <li className="p-4 text-[18px] font-medium">
+          <NavLink
+            to="/contact"
+            className={({ isActive }) => (isActive ? "text-[#637d6f]" : "")}
+          >
+            Contact Us
+          </NavLink>
         </li>
-        <li className="p-4 text-[16px] font-medium">
-          <Link to="/contact">Contact Us</Link>
-        </li>
-        <li className="p-4 text-[16px] font-medium">
-          <Link to="/cart">
+        <li className="p-4 text-[18px] font-medium">
+          <NavLink
+            to="/cart"
+            className={({ isActive }) => (isActive ? "text-[#637d6f]" : "")}
+          >
             {cartItems.length > 0 && cartItems.length} Cart
-          </Link>
+          </NavLink>
         </li>
-        <li className="p-4 text-[16px] font-medium">
-          <Link to="/groceries">Groceries</Link>
+        <li className="p-4 text-[18px] font-medium">
+          <NavLink
+            to="/groceries"
+            className={({ isActive }) => (isActive ? "text-[#637d6f]" : "")}
+          >
+            Groceries
+          </NavLink>
         </li>
-        <li className="p-4 text-[16px] font-medium" onClick={toggleBtn}>
+        <li
+          className="p-4 text-[18px] font-medium cursor-pointer"
+          onClick={toggleBtn}
+        >
           {btnName}
         </li>
       </ul>
