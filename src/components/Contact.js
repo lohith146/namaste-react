@@ -6,7 +6,7 @@ const Contact = () => (
     <form className="text-center max-w-[400px] m-auto">
       <div className="py-2">
         <label
-          for="userName"
+          htmlFor="userName"
           className="block text-start font-medium pb-1 text-[16px]"
         >
           Name
@@ -19,7 +19,7 @@ const Contact = () => (
       </div>
       <div className="py-2">
         <label
-          for="email"
+          htmlFor="email"
           className="block text-start font-medium pb-1 text-[16px]"
         >
           Email
@@ -32,7 +32,7 @@ const Contact = () => (
       </div>
       <div className="py-2">
         <label
-          for="number"
+          htmlFor="number"
           className="block text-start font-medium pb-1 text-[16px]"
         >
           Number

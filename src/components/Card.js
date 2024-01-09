@@ -1,6 +1,6 @@
 import { CARD_IMG_URL } from "../utils/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faLeaf } from "@fortawesome/free-solid-svg-icons";
 
 const Card = (props) => {
   const {
@@ -11,7 +11,9 @@ const Card = (props) => {
     areaName,
     cloudinaryImageId,
     aggregatedDiscountInfoV3,
+    veg,
   } = props.resData.info;
+  console.log(props?.resData?.info);
 
   return (
     <div className="w-[300px] p-4 hover:scale-[0.95] ease-in-out duration-300">
@@ -42,6 +44,15 @@ const Card = (props) => {
           </span>
           <span className="block w-1 h-1 rounded-full bg-black mx-1"></span>
           <span>{sla.slaString}</span>
+          {veg && (
+            <span className="text-[14px] font-semibold">
+              <FontAwesomeIcon
+                icon={faLeaf}
+                className="text-green-600 mr-[5px] ml-[5px]"
+              />
+              Pure Veg
+            </span>
+          )}
         </h5>
         <h6 className="text-[14px] font-light text-slate-400 truncate">
           {cuisines.join(", ")}

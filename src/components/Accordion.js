@@ -29,7 +29,7 @@ const Accordion = (props) => {
     <>
       {(props?.content?.length > 0 || props?.extraMenu?.length > 0) && (
         <h4
-          className="cursor-pointer flex justify-between py-4 font-bold text-[18px]"
+          className="cursor-pointer flex justify-between py-3 font-bold text-[18px]"
           onClick={() => {
             props.toggleAccordion(props.index);
           }}
@@ -73,7 +73,10 @@ const Accordion = (props) => {
           >
             {props?.content?.map((item, i) => {
               return (
-                <li key={i} className="flex justify-between py-3">
+                <li
+                  key={i}
+                  className="flex justify-between py-3 border-solid border-gray-100 border-b-2 last:border-none"
+                >
                   <div>
                     <span className="flex items-center">
                       {item?.card?.info?.itemAttribute?.vegClassifier ===

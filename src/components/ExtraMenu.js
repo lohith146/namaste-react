@@ -16,7 +16,7 @@ const ExtraMenu = ({ item, i, toggleItemIndex, itemIndexVal }) => {
     dispatch(addItem(item));
   };
   return (
-    <div key={i} className="border-b-[12px] border-solid">
+    <div key={i} className="border-b-2 border-solid">
       {(item?.itemCards?.length > 0 || item?.categories?.length > 0) && (
         <h4
           className="cursor-pointer flex justify-between py-4 font-normal text-[16px]"

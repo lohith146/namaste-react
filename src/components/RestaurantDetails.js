@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { RestaurantDetailsShimmer } from "./Shimmer";
 import useRestaurantDetails from "../utils/useRestaurantDetails";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -81,8 +81,15 @@ const RestaurantDetails = () => {
     setOpenCardIndex(index);
   };
 
-  const { name, areaName, avgRatingString, cuisines, totalRatingsString, sla } =
-    restDetails?.data?.cards[0]?.card?.card?.info;
+  const {
+    name,
+    areaName,
+    avgRatingString,
+    cuisines,
+    totalRatingsString,
+    sla,
+    veg,
+  } = restDetails?.data?.cards[0]?.card?.card?.info;
 
   const sortOnlyVeg = (checked) => {
     checked ? setMenuDeatils(filterVegItems()) : setMenuDeatils(allMenu);
@@ -119,13 +126,25 @@ const RestaurantDetails = () => {
           </span>
         </div>
       </div>
-      <div className="font-semibold py-4 flex items-center">
-        <label className="mr-[8px]">Only Veg</label>
-        <Switch
-          size="small"
-          onChange={sortOnlyVeg}
-          className="bg-gray-400 min-w-[30px]"
-        />
+      <div className="font-semibold pt-4 flex items-center">
+        {veg ? (
+          <p className="text-[14px] font-semibold">
+            <FontAwesomeIcon
+              icon={faLeaf}
+              className="text-green-600 mr-[5px]"
+            />
+            Pure Veg
+          </p>
+        ) : (
+          <>
+            <label className="mr-[8px]">Only Veg</label>
+            <Switch
+              size="small"
+              onChange={sortOnlyVeg}
+              className="bg-gray-400 min-w-[30px]"
+            />
+          </>
+        )}
       </div>
       <div className="menuItems">
         {menuDetails?.map((item, i) => {

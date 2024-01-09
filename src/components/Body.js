@@ -18,11 +18,11 @@ const Body = () => {
     const prmseData = await fetch(restaurants);
     const dataArr = await prmseData.json();
     setResCards(
-      dataArr?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
+      dataArr?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
     );
     setFilteredArr(
-      dataArr?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
+      dataArr?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
     );
   };
